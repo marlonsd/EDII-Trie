@@ -32,7 +32,7 @@ node *Trie(){
 }
 
 int insert(node *T, char *word){
-	int i, size;
+	int i, size, pos;
 	node *aux, *pointer;
 	
 	for (size = 1; word[size] != '\0'; size++);
@@ -40,23 +40,23 @@ int insert(node *T, char *word){
 	pointer = T;
 	
 	for (i = 0; i < size; i++){
-		if (pointer->key[word[i]]){
+		pos = word[i] - 'a';
+		if (pointer->key[pos]){
 				pointer = pointer->key[word[i]];
 		} else {
 			aux = Trie();
 			if (!aux) {
 				return 0;
-				printf("Cai aqui\n");
 			}
-			pointer->key[word[i]] = aux;
-			aux->father = pointer->key[word[i]];
-			aux->kids++;
+			pointer->key[pos] = aux;
+			aux->father = pointer;
+			pointer->kids++;
+			printf("%x %x\n", pointer, aux->father);
 			pointer = aux;
 		}
 	}
 	
 	pointer->key[26] = malloc(sizeof(node));
-	
 	T->kids++;
 	
 	return 1;
@@ -81,7 +81,7 @@ node *get(node *T, char *word){
 		pointer = pointer->key[pos];
 		i++;
 	}
-	
+
 	return pointer;
 }
 
@@ -91,7 +91,9 @@ int find(node *T, char *word){
 	
 	aux = get(T, word);
 	
-	if (!aux){
+	printf("%X\n", aux);
+	
+	if (aux){
 		return 1;
 	} else {
 		return 0;
@@ -102,16 +104,20 @@ int delete(node *T, char *word){
 	node *aux, *pointer;
 	
 	aux = get(T, word);
-	
+	printf("%x\n", aux);
 	/* Enquanto não chegar na raiz, onde o pai é nulo */
-	while(aux->father){
-		if (!aux->kids){ // Se não tem filhos
-			pointer = aux->father;
-			free(aux);
-			aux = pointer;
-		} else {
-			return 0;
-		}
+	if (aux){
+		while(aux->father){
+			if (!aux->kids){ // Se não tem filhos
+				pointer = aux->father;
+				free(aux);
+				aux = pointer;
+			} else {
+				return 0;
+			}
+		} 
+	} else {
+		return 0;
 	}
 	
 	return 1;
