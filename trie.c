@@ -40,15 +40,19 @@ int insert(node *T, char *word){
 	pointer = T;
 	
 	for (i = 0; i < size; i++){
-		aux = Trie();
-		if (!aux) {
-			return 0;
-			printf("Cai aqui\n");
+		if (pointer->key[word[i]]){
+				pointer = pointer->key[word[i]];
+		} else {
+			aux = Trie();
+			if (!aux) {
+				return 0;
+				printf("Cai aqui\n");
+			}
+			pointer->key[word[i]] = aux;
+			aux->father = pointer->key[word[i]];
+			aux->kids++;
+			pointer = aux;
 		}
-		pointer->key[word[i]] = aux;
-		aux->father = pointer->key[word[i]];
-		aux->kids++;
-		pointer = aux;
 	}
 	
 	pointer->key[26] = malloc(sizeof(node));
