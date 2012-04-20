@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "trie.h"
 
-#define TAM 10000
+#define TAM 10
 
 int main(){
 	int op, i;

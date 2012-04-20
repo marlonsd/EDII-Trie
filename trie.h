@@ -25,5 +25,6 @@ int insert(node *T, char *word);
 int find(node *T, char *word);
 int delete(node *T, char *word);
 node *get(node *T, char *word);
+int lenght(char *word);
 
 #endif
