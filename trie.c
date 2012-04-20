@@ -3,6 +3,14 @@
  * 
  * 0 = FALSE
  * 1 = TRUE */
+ 
+/* Problem:
+i n
+i ap
+r n
+r ap
+r n
+ *  */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,8 +51,8 @@ int insert(node *T, char *word){
 		pos = word[i] - 'a';
 //		printf("%d ",pos);
 		if (pointer->key[pos]){
-			pointer = pointer->key[pos];
 			pointer->kids++;
+			pointer = pointer->key[pos];
 		} else {
 			aux = Trie();
 			if (!aux) {
@@ -64,7 +72,7 @@ int insert(node *T, char *word){
 
 	//printf("\n%x - %x\n", pointer, pointer->key[26]);
 	//printf("T Kids: %d - Pointer Kids: %d\n", T->kids, pointer->kids);
-	
+	//printf("%d %d", T->kids, T->key[0]->kids);
 	return 1;
 	
 }
@@ -74,18 +82,16 @@ int insert(node *T, char *word){
 node *get(node *T, char *word){
 	int i, pos;
 	node *pointer;
-	char *aux;
 	
 	i = 0;
-	
-	aux = word;
+
 //	printf("%s\n\n", aux);
 	pointer = T;
-	if (aux == '\0'){
+	if (word[0] == '\0'){
 		return NULL;
 	} else {
-		while((aux[i] != '\0') && (pointer)){
-			pos = aux[i] - 'a';
+		while((word[i] != '\0') && (pointer)){
+			pos = word[i] - 'a';
 //			printf("%d\n", pos);
 //			printf("Pointer: %x - Pointer->key[%c]: %x\n",pointer, pos+'a', pointer->key[pos] );
 			pointer = pointer->key[pos];
@@ -104,10 +110,8 @@ int find(node *T, char *word){
 	
 	aux = get(T, word);
 	
-	if (aux){
-		if (aux->key[26]){
-			return 1;
-		}
+	if ((aux) && (aux->key[26])){
+		return 1;
 	}
 	
 	return 0;
@@ -122,9 +126,10 @@ int delete(node *T, char *word){
 	size = lenght(word);
 	//printf("%x %d\n\n", aux, aux->kids);
 	/* Enquanto não chegar na raiz, onde o pai é nulo */
-	if (aux){
+	if ((aux) && (aux->key[26])){
 		//printf("%x %d\n", aux, aux->kids);
-		while(aux->father){
+		aux->key[26] = NULL;
+		/*while(aux->father){
 			//aux->key[26] = NULL;
 			//pointer = aux->father;
 			//printf("%d ", pointer->kids);
@@ -133,7 +138,7 @@ int delete(node *T, char *word){
 				aux->key[26] = NULL;
 				pointer = aux->father;
 				size--;
-				//printf("Pointer: %x - Pointer->key[%c]: %x - Aux: %x\n", pointer, word[size], pointer->key[word[size] - 'a'], aux);
+				printf("Pointer: %x - Pointer->key[%c]: %x - Aux: %x\n", pointer, word[size], pointer->key[word[size] - 'a'], aux);
 				//printf("-- Kids: %d %d\n", pointer->kids, aux->kids);
 				pointer->key[word[size] - 'a'] = NULL;
 				pointer->kids--;
@@ -144,7 +149,7 @@ int delete(node *T, char *word){
 				aux = aux->father;
 			}
 			//printf("%x %d\n", aux, aux->kids);
-		} 
+		} */
 	} else {
 		return 0;
 	}
@@ -157,7 +162,7 @@ int delete(node *T, char *word){
 int lenght(char *word){
 	int size;
 	
-	for (size = 1; word[size] != '\0'; size++);
+	for (size = 0; word[size] != '\0'; size++);
 	
 	return size;
 }

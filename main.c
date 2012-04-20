@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "trie.h"
 
-#define TAM 10
+#define TAM 15000
 
 int main(){
 	int op, i;
@@ -15,7 +15,7 @@ int main(){
 		if ((sel == 'b') || (sel == 'i') || (sel == 'r')){
 			scanf("%c", &aux);
 
-			if (!(palavra = malloc(sizeof(char)*TAM))){
+			if (!(palavra = malloc(sizeof(char)*(TAM + 1)))){
 				printf("Falha a alocar memória.\n");
 				exit(1);
 			}

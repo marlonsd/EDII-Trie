@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_PALAVRA 10000
+#define MAX_PALAVRA 15000
+#define TOTAL_PALAVRAS 10000
 
 void inserir(char *word[], int *count);
 void buscar(char *word[], int count);
@@ -12,7 +13,7 @@ void gerarPalavra(int tamanho, char *palavra);
 FILE *fin, *fout;
 
 int main(){
-	char *palavras[4000];
+	char *palavras[40000];
 	int count_palavras, numero, i;
 		
 	if((fin = fopen( "in.txt", "w")) == NULL ) {
@@ -28,13 +29,9 @@ int main(){
 	srand(time(NULL));
 	count_palavras = 0;
 	
-	for (i = 0; i < 10000; i++){
-		if (i == 0) {
-			numero = 0;
-		} else {
-			numero = rand() % 3;
-		}
-
+	for (i = 0; i < TOTAL_PALAVRAS; i++){
+		numero = rand() % 3;
+		printf("passei aqui %d\n", numero);
 		switch(numero){
 
 			case 0: inserir(palavras, &count_palavras);
@@ -76,12 +73,29 @@ void inserir(char *word[], int *count) {
 }
 
 void buscar(char *word[], int count){
-	int chance, i, tam;
-	char *aux;
+	int chance, i, j, tam, teste;
+	char *aux, *comp;
 	
-	chance = rand() % 2;
 	i = 0;
-	i++;
+	
+	teste = 0;
+	aux = word[i];
+	printf("Passei %d %d\n", i, count);
+	while (!teste && (i < count)){
+		if (aux[0] != '\0'){
+			teste = 1;
+		}
+		aux = word[i];
+		i++;
+		printf("PRESO\n");
+	}
+	
+	if (teste){
+		chance = rand() % 2;
+	} else {
+		chance = 0;
+	}
+	
 	if (chance){
 		chance = rand() % count;
 		aux = word[chance];
@@ -89,6 +103,7 @@ void buscar(char *word[], int count){
 		while (aux[0] == '\0'){
 			chance = rand() % count;
 			aux = word[chance];
+			printf("preseo\n");
 		}
 		
 		fprintf(fin,"b %s\n", aux);
@@ -101,8 +116,34 @@ void buscar(char *word[], int count){
 		}
 		
 		aux = malloc(sizeof(char)*(tam+1));
-		
+
 		gerarPalavra(tam, aux);
+		/* */
+		if (count > 0){
+			teste = 0;
+			while (!teste){
+				i = 0;
+				while (!teste && (i < count)){
+					comp = word[i];
+					j = 0;
+					while ((aux[j] != '\0') && (comp[j] != '\0') && !teste){
+						if (aux[j] == comp[j]){
+							printf("%c %c\n", aux[j], comp[j]);
+							j++;
+						} else {
+							printf("Oi 1\n");
+							teste = 1;
+						}
+					}
+					i++;
+					printf("Here 1\n");
+				}
+				if (!teste){
+					gerarPalavra(tam, aux);
+				}
+			}
+		}
+		/*  */
 		
 		fprintf(fin,"b %s\n", aux);
 		fprintf(fout, "f\n");
@@ -110,12 +151,29 @@ void buscar(char *word[], int count){
 }
 
 void remover(char *word[], int count){
-	int chance, i, tam;
-	char *aux;
+	int chance, i, tam, teste, j;
+	char *aux, *comp;
 	
-	chance = rand() % 2;
 	i = 0;
-	i++;
+	
+	teste = 0;
+	
+	aux = word[i];
+	while(!teste && (i < count)){
+		if (aux[0] != '\0'){
+			teste = 1;
+		}
+		aux = word[i];
+		i++;
+		printf("PRESO\n");
+	}
+	
+	if (teste){
+		chance = rand() % 2;
+	} else {
+		chance = 0;
+	}
+	
 	if (chance){
 		chance = rand() % count;
 		aux = word[chance];
@@ -123,7 +181,7 @@ void remover(char *word[], int count){
 		while (aux[0] == '\0'){
 			chance = rand() % count;
 			aux = word[chance];
-			printf("Hehe\n");
+			printf("preseo\n");
 		}
 		
 		fprintf(fin,"r %s\n", aux);
@@ -140,6 +198,33 @@ void remover(char *word[], int count){
 		aux = malloc(sizeof(char)*(tam+1));
 		
 		gerarPalavra(tam, aux);
+		
+		/* */
+		teste = 0;
+		if (count > 0){
+			while (!teste){
+				i = 0;
+				while (!teste && (i < count)){
+					comp = word[i];
+					j = 0;
+					while ((aux[j] != '\0') && (comp[j] != '\0') && !teste){
+						if (aux[j] == comp[j]){
+							printf("%c %c\n", aux[j], comp[j]);
+							j++;
+						} else {
+							printf("Oi 2\n");
+							teste = 1;
+						}
+					}
+					i++;
+					printf("Here 2 %d\n", i);
+				}
+				if (!teste){
+					gerarPalavra(tam, aux);
+				}
+			}
+		}
+		/*  */
 		
 		fprintf(fin,"r %s\n", aux);
 		fprintf(fout, "f\n");
