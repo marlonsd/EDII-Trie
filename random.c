@@ -2,18 +2,19 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_PALAVRA 15000
+#define MAX_PALAVRA 10000
 #define TOTAL_PALAVRAS 10000
 
 void inserir(char *word[], int *count);
 void buscar(char *word[], int count);
 void remover(char **word, int count);
 void gerarPalavra(int tamanho, char *palavra);
+int lenght(char *word);
 
 FILE *fin, *fout;
 
 int main(){
-	char *palavras[40000];
+	char *palavras[4000];
 	int count_palavras, numero, i;
 		
 	if((fin = fopen( "in.txt", "w")) == NULL ) {
@@ -30,8 +31,9 @@ int main(){
 	count_palavras = 0;
 	
 	for (i = 0; i < TOTAL_PALAVRAS; i++){
+		printf("%d ", i);
 		numero = rand() % 3;
-		printf("passei aqui %d\n", numero);
+
 		switch(numero){
 
 			case 0: inserir(palavras, &count_palavras);
@@ -73,27 +75,30 @@ void inserir(char *word[], int *count) {
 }
 
 void buscar(char *word[], int count){
-	int chance, i, j, tam, teste;
+	int chance, i, j, tam, teste, aux_lenght;
 	char *aux, *comp;
 	
 	i = 0;
 	
-	teste = 0;
-	aux = word[i];
-	printf("Passei %d %d\n", i, count);
-	while (!teste && (i < count)){
-		if (aux[0] != '\0'){
-			teste = 1;
-		}
-		aux = word[i];
-		i++;
-		printf("PRESO\n");
-	}
+	chance = 0;
 	
-	if (teste){
-		chance = rand() % 2;
-	} else {
-		chance = 0;
+	if (count){
+		teste = 0;
+		aux = word[i];
+
+		while (!teste && (i < count)){
+			if (aux[0] != '\0'){
+				teste = 1;
+			}
+			aux = word[i];
+			i++;
+		}
+	
+		if (teste){
+			chance = rand() % 2;
+		} else {
+			chance = 0;
+		}
 	}
 	
 	if (chance){
@@ -103,7 +108,6 @@ void buscar(char *word[], int count){
 		while (aux[0] == '\0'){
 			chance = rand() % count;
 			aux = word[chance];
-			printf("preseo\n");
 		}
 		
 		fprintf(fin,"b %s\n", aux);
@@ -120,28 +124,28 @@ void buscar(char *word[], int count){
 		gerarPalavra(tam, aux);
 		/* */
 		if (count > 0){
-			teste = 0;
-			while (!teste){
 				i = 0;
-				while (!teste && (i < count)){
+				while (i < count){
 					comp = word[i];
-					j = 0;
-					while ((aux[j] != '\0') && (comp[j] != '\0') && !teste){
-						if (aux[j] == comp[j]){
-							printf("%c %c\n", aux[j], comp[j]);
-							j++;
-						} else {
-							printf("Oi 1\n");
-							teste = 1;
+					aux_lenght = lenght(aux);
+					teste = 1;
+					if (lenght(comp) == aux_lenght){
+						teste = 0;
+						j = 0;
+						while ((aux[j] != '\0') && (comp[j] != '\0') && !teste){
+							if (aux[j] == comp[j]){
+								j++;
+							} else {
+								teste = 1;
+							}
 						}
 					}
 					i++;
-					printf("Here 1\n");
+					if (!teste){
+						gerarPalavra(tam, aux);
+						i = 0;
+					}
 				}
-				if (!teste){
-					gerarPalavra(tam, aux);
-				}
-			}
 		}
 		/*  */
 		
@@ -151,27 +155,30 @@ void buscar(char *word[], int count){
 }
 
 void remover(char *word[], int count){
-	int chance, i, tam, teste, j;
+	int chance, i, tam, teste, j, aux_lenght;
 	char *aux, *comp;
 	
 	i = 0;
 	
-	teste = 0;
+	chance = 0;
 	
-	aux = word[i];
-	while(!teste && (i < count)){
-		if (aux[0] != '\0'){
-			teste = 1;
-		}
+	if (count){
+		teste = 0;
 		aux = word[i];
-		i++;
-		printf("PRESO\n");
-	}
+
+		while (!teste && (i < count)){
+			if (aux[0] != '\0'){
+				teste = 1;
+			}
+			aux = word[i];
+			i++;
+		}
 	
-	if (teste){
-		chance = rand() % 2;
-	} else {
-		chance = 0;
+		if (teste){
+			chance = rand() % 2;
+		} else {
+			chance = 0;
+		}
 	}
 	
 	if (chance){
@@ -181,7 +188,6 @@ void remover(char *word[], int count){
 		while (aux[0] == '\0'){
 			chance = rand() % count;
 			aux = word[chance];
-			printf("preseo\n");
 		}
 		
 		fprintf(fin,"r %s\n", aux);
@@ -200,29 +206,29 @@ void remover(char *word[], int count){
 		gerarPalavra(tam, aux);
 		
 		/* */
-		teste = 0;
 		if (count > 0){
-			while (!teste){
 				i = 0;
-				while (!teste && (i < count)){
+				while (i < count){
 					comp = word[i];
-					j = 0;
-					while ((aux[j] != '\0') && (comp[j] != '\0') && !teste){
-						if (aux[j] == comp[j]){
-							printf("%c %c\n", aux[j], comp[j]);
-							j++;
-						} else {
-							printf("Oi 2\n");
-							teste = 1;
+					aux_lenght = lenght(aux);
+					teste = 1;
+					if (lenght(comp) == aux_lenght){
+						teste = 0;
+						j = 0;
+						while ((aux[j] != '\0') && (comp[j] != '\0') && !teste){
+							if (aux[j] == comp[j]){
+								j++;
+							} else {
+								teste = 1;
+							}
 						}
 					}
 					i++;
-					printf("Here 2 %d\n", i);
+					if (!teste){
+						gerarPalavra(tam, aux);
+						i = 0;
+					}
 				}
-				if (!teste){
-					gerarPalavra(tam, aux);
-				}
-			}
 		}
 		/*  */
 		
@@ -241,4 +247,12 @@ void gerarPalavra(int tamanho, char *palavra){
 	}
 	
 	palavra[tamanho] = '\0';
+}
+
+int lenght(char *word){
+	int size;
+	
+	for (size = 0; word[size] != '\0'; size++);
+	
+	return size;
 }
