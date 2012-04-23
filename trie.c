@@ -1,6 +1,6 @@
 /* Marlon da Silva Dias - Ciência da Computação
  * Sinal indicador de fim de palavra: $ 
- * 
+ * Tamanho de palavra aleatório até 30k: OK (Sem erros)
  * 0 = FALSE
  * 1 = TRUE */
  
@@ -68,7 +68,16 @@ int insert(node *T, char *word){
 		}
 	}
 	
-	pointer->key[26] = (node*) 1;
+	aux = Trie();
+	
+	if (!(aux)){
+		return 0;
+	}
+	
+	aux->father = pointer;
+	pointer->key[26] = aux;
+	//printf("%x %x ", pointer->key[26], pointer->key[26]->father);
+	pointer->kids++;
 
 	//printf("\n%x - %x\n", pointer, pointer->key[26]);
 	//printf("T Kids: %d - Pointer Kids: %d\n", T->kids, pointer->kids);
@@ -100,8 +109,11 @@ node *get(node *T, char *word){
 		}
 	}
 	
-	return pointer;
+	if (pointer) {
+		return pointer->key[26];
+	} 
 	
+	return NULL;
 }
 
 
@@ -110,7 +122,7 @@ int find(node *T, char *word){
 	
 	aux = get(T, word);
 	
-	if ((aux) && (aux->key[26])){
+	if ((aux)){
 		return 1;
 	}
 	
@@ -118,38 +130,45 @@ int find(node *T, char *word){
 }
 
 int delete(node *T, char *word){
-	int size, control;
-	node *aux, *pointer;
+	int i, control;
+	node *aux, *father;
 	
 	aux = get(T, word);
 
-	size = lenght(word);
+	//size = lenght(word);
 	//printf("%x %d\n\n", aux, aux->kids);
 	/* Enquanto não chegar na raiz, onde o pai é nulo */
-	if ((aux) && (aux->key[26])){
+	if (aux){
 		//printf("%x %d\n", aux, aux->kids);
-		aux->key[26] = NULL;
-		/*while(aux->father){
-			//aux->key[26] = NULL;
-			//pointer = aux->father;
-			//printf("%d ", pointer->kids);
-			if (aux->kids < 1){ // Se não tem filhos
-				//printf("%d\n", size);
-				aux->key[26] = NULL;
-				pointer = aux->father;
-				size--;
-				printf("Pointer: %x - Pointer->key[%c]: %x - Aux: %x\n", pointer, word[size], pointer->key[word[size] - 'a'], aux);
-				//printf("-- Kids: %d %d\n", pointer->kids, aux->kids);
-				pointer->key[word[size] - 'a'] = NULL;
-				pointer->kids--;
-				//printf("%x %d\n", aux->key[size], size);
-				free(aux);
-				aux = pointer;
-			} else {
-				aux = aux->father;
+//		printf("%x %x %x\n", aux, aux->father->key[26], aux->father);
+		father = aux->father;
+		father->key[26] = NULL;
+		father->kids--;
+		free(aux);
+		//printf("Here\n");
+		while(father){
+			aux = father;
+			father = aux->father;
+			if (aux->father){
+				//printf("Here\n");
+				father->kids--;
+					
+				if (!aux->kids){
+					i = 0;
+					while((father->key[i] != aux) && (i < 26)){
+						i++;
+					}
+					
+					if (father->key[i] == aux){
+						father->key[i] = NULL;
+					} else {
+						return 0;
+					}
+					
+					free(aux);
+				}
 			}
-			//printf("%x %d\n", aux, aux->kids);
-		} */
+		}
 	} else {
 		return 0;
 	}

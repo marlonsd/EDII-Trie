@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include "trie.h"
 
-#define TAM 15000
+#define TAM 30000
 
 int main(){
-	int op, i;
+	int op, i, j;
 	node *raiz;
 	char aux, sel,*palavra;
 	
 	raiz = Trie();
-	
+	j=0;
 	while((scanf("%c", &sel)) == 1){
 		if ((sel == 'b') || (sel == 'i') || (sel == 'r')){
 			scanf("%c", &aux);
@@ -42,7 +42,8 @@ int main(){
 			}
 			
 			free(palavra);
-			
+//			printf("%d ", j);
+	//		j++;
 			if (op){
 				printf("v");
 			} else {
