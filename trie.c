@@ -51,7 +51,6 @@ int insert(node *T, char *word){
 		pos = word[i] - 'a';
 //		printf("%d ",pos);
 		if (pointer->key[pos]){
-			pointer->kids++;
 			pointer = pointer->key[pos];
 		} else {
 			aux = Trie();
@@ -68,7 +67,7 @@ int insert(node *T, char *word){
 		}
 	}
 	
-	aux = Trie();
+	/*aux = Trie();
 	
 	if (!(aux)){
 		return 0;
@@ -76,7 +75,10 @@ int insert(node *T, char *word){
 	
 	aux->father = pointer;
 	pointer->key[26] = aux;
+	pointer->kids++;*/
 	//printf("%x %x ", pointer->key[26], pointer->key[26]->father);
+	
+	pointer->key[26] = (node *) 1;
 	pointer->kids++;
 
 	//printf("\n%x - %x\n", pointer, pointer->key[26]);
@@ -109,11 +111,13 @@ node *get(node *T, char *word){
 		}
 	}
 	
-	if (pointer) {
+	/*if (pointer) {
 		return pointer->key[26];
 	} 
 	
-	return NULL;
+	return NULL;*/
+	
+	return pointer;
 }
 
 
@@ -122,7 +126,7 @@ int find(node *T, char *word){
 	
 	aux = get(T, word);
 	
-	if ((aux)){
+	if ((aux) && (aux->key[26])){
 		return 1;
 	}
 	
@@ -141,31 +145,52 @@ int delete(node *T, char *word){
 	if (aux){
 		//printf("%x %d\n", aux, aux->kids);
 //		printf("%x %x %x\n", aux, aux->father->key[26], aux->father);
-		father = aux->father;
-		father->key[26] = NULL;
-		father->kids--;
-		free(aux);
-		//printf("Here\n");
-		while(father){
-			aux = father;
+		aux->key[26] = NULL;
+		aux->kids--;
+		if (!aux->kids){
 			father = aux->father;
-			if (aux->father){
-				//printf("Here\n");
-				father->kids--;
+			father->kids--;
+			free(aux);
+			//printf("Here\n");
+			while(father){
+				aux = father;
+				father = aux->father;
+				if ((aux->father) && (!father->kids)){
+					//printf("Here\n");
+/*					father->kids--;
+						
+					if (!aux->kids){
+						i = 0;
+						while((father->key[i] != aux) && (i < 26)){
+							i++;
+						}
+						
+						if (father->key[i] == aux){
+							father->key[i] = NULL;
+						} else {
+							return 0;
+						}
+						
+						free(aux);
+					}*/
+					aux = father;
+					father = father->father;
 					
-				if (!aux->kids){
-					i = 0;
-					while((father->key[i] != aux) && (i < 26)){
-						i++;
+					if (!aux->kids){
+						i = 0;
+						while((father->key[i] != aux) && (i < 26)){
+							i++;
+						}
+						
+						if (father->key[i] == aux){
+							father->key[i] = NULL;
+						} else {
+							return 0;
+						}
+						
+						free(aux);
+						father->kids--;
 					}
-					
-					if (father->key[i] == aux){
-						father->key[i] = NULL;
-					} else {
-						return 0;
-					}
-					
-					free(aux);
 				}
 			}
 		}
