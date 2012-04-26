@@ -2,16 +2,19 @@
 #include <stdlib.h>
 #include "trie.h"
 
-#define TAM 10000
+#define TAM 35000
 
 int main(){
-	int op, i, j;
+	unsigned long int i;
 	node *raiz;
-	char aux, sel,*palavra;
+	char aux, op, sel,*palavra;
+	int j;
 	
 	raiz = Trie();
-	j=0;
-	while((scanf("%c", &sel)) == 1){
+	
+	scanf("%c", &sel);
+	j = 0;
+	while(sel != '@'){
 		if ((sel == 'b') || (sel == 'i') || (sel == 'r')){
 			scanf("%c", &aux);
 
@@ -30,12 +33,13 @@ int main(){
 			
 			palavra[i] = '\0';
 
-			op = 0;
+			op = 1;
 			
 			switch(sel){
 				case 'b': op = find(raiz, palavra);
 					break;
-				case 'i': op = insert(raiz, palavra);
+				case 'i'://printf("%d\n", j);
+				op = insert(raiz, palavra);
 					break;
 				case 'r': op = delete(raiz, palavra);
 					break;
@@ -43,7 +47,6 @@ int main(){
 			
 			free(palavra);
 //			printf("%d ", j);
-	//		j++;
 			if (op){
 				printf("v");
 			} else {
@@ -52,6 +55,8 @@ int main(){
 			
 			printf("\n");
 		}
+		j++;
+		scanf("%c", &sel);
 	}
 	
 	return 0;

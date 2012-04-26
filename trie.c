@@ -25,7 +25,8 @@ node *Trie(){
 	int i;
 	
 	if (!(T = malloc(sizeof(node)))){
-		return NULL;
+		printf("Faltou memória.\n");
+		exit(1);
 	}
 	
 	T->father = NULL;
@@ -43,47 +44,30 @@ int insert(node *T, char *word){
 	int i, size, pos;
 	node *aux, *pointer;
 	
-	size = lenght(word); //for (size = 1; word[size] != '\0'; size++);
-	
 	pointer = T;
-//	printf("Pointer: %x\n", pointer);
-	for (i = 0; i < size; i++){
+
+	for (i = 0; word[i] != '\0'; i++){
 		pos = word[i] - 'a';
-//		printf("%d ",pos);
 		if (pointer->key[pos]){
 			pointer = pointer->key[pos];
 		} else {
 			aux = Trie();
 			if (!aux) {
-				return 0;
+				printf("Faltou memória.\n");
+				exit(1);
 			}
 			pointer->key[pos] = aux;
 			aux->father = pointer;
 			pointer->kids++;
-//			printf("%x %x\n", pointer, aux->father);
-			//printf("Father: %x - Pointer: %x - Aux: %x - Pointer->key[%c]: %x\n", pointer->father,pointer, aux,(pos + 'a'), pointer->key[pos]);
-			//printf("%d %d", )
 			pointer = aux;
 		}
 	}
 	
-	/*aux = Trie();
-	
-	if (!(aux)){
-		return 0;
+	if (!pointer->key[26]){
+		pointer->key[26] = (node *) 1;
+		pointer->kids++;
 	}
 	
-	aux->father = pointer;
-	pointer->key[26] = aux;
-	pointer->kids++;*/
-	//printf("%x %x ", pointer->key[26], pointer->key[26]->father);
-	
-	pointer->key[26] = (node *) 1;
-	pointer->kids++;
-
-	//printf("\n%x - %x\n", pointer, pointer->key[26]);
-	//printf("T Kids: %d - Pointer Kids: %d\n", T->kids, pointer->kids);
-	//printf("%d %d", T->kids, T->key[0]->kids);
 	return 1;
 	
 }
@@ -96,26 +80,16 @@ node *get(node *T, char *word){
 	
 	i = 0;
 
-//	printf("%s\n\n", aux);
 	pointer = T;
-	if (word[0] == '\0'){
+	if (word[i] == '\0'){
 		return NULL;
 	} else {
 		while((word[i] != '\0') && (pointer)){
 			pos = word[i] - 'a';
-//			printf("%d\n", pos);
-//			printf("Pointer: %x - Pointer->key[%c]: %x\n",pointer, pos+'a', pointer->key[pos] );
 			pointer = pointer->key[pos];
-			//printf("%x ", pointer);
 			i++;
 		}
 	}
-	
-	/*if (pointer) {
-		return pointer->key[26];
-	} 
-	
-	return NULL;*/
 	
 	return pointer;
 }
@@ -139,74 +113,29 @@ int delete(node *T, char *word){
 	
 	aux = get(T, word);
 
-	//size = lenght(word);
-	//printf("%x %d\n\n", aux, aux->kids);
-	/* Enquanto não chegar na raiz, onde o pai é nulo */
-	if (aux){
-		//printf("%x %d\n", aux, aux->kids);
-//		printf("%x %x %x\n", aux, aux->father->key[26], aux->father);
+	if (aux && aux->key[26]){
 		aux->key[26] = NULL;
 		aux->kids--;
-		if (!aux->kids){
+			
+		while (aux && (!aux->kids)){
 			father = aux->father;
-			father->kids--;
-			free(aux);
-			//printf("Here\n");
-			while(father){
-				aux = father;
-				father = aux->father;
-				if ((aux->father) && (!father->kids)){
-					//printf("Here\n");
-/*					father->kids--;
-						
-					if (!aux->kids){
-						i = 0;
-						while((father->key[i] != aux) && (i < 26)){
-							i++;
-						}
-						
-						if (father->key[i] == aux){
-							father->key[i] = NULL;
-						} else {
-							return 0;
-						}
-						
-						free(aux);
-					}*/
-					aux = father;
-					father = father->father;
-					
-					if (!aux->kids){
-						i = 0;
-						while((father->key[i] != aux) && (i < 26)){
-							i++;
-						}
-						
-						if (father->key[i] == aux){
-							father->key[i] = NULL;
-						} else {
-							return 0;
-						}
-						
-						free(aux);
-						father->kids--;
-					}
-				}
+			i = 0;
+			
+			while((father->key[i] != aux) && (i < 26)){
+				i++;
 			}
+			
+			father->key[i] = NULL;
+			
+			if (aux->father){
+				free(aux);
+			}
+			
+			aux = father;
 		}
+	
 	} else {
 		return 0;
 	}
-	
-	//printf("\n%x\n", aux->key[0]);
-	
 	return 1;
-}
-
-int lenght(char *word){
-	int size;
-	
-	for (size = 0; word[size] != '\0'; size++);
-	
-	return size;
 }
