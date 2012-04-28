@@ -1,5 +1,5 @@
 // ------------------------------------------------------------
-//  Trabalho Estrutura de Dados II
+//  Trabalho Estrutura de Dados II - Árvore Trie
 //		Ciênia da Computação
 //
 //	Aluno: Marlon da Silva Dias
