@@ -9,3 +9,6 @@ trie.o: trie.c trie.h
 
 clean:
 	rm *.o trie
+
+txt:
+	rm *.txt

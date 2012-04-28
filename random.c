@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_PALAVRA 10000
+#define MAX_PALAVRA 16100
 #define TOTAL_PALAVRAS 10000
 
 void inserir(char *word[], int *count);
@@ -29,10 +29,11 @@ int main(){
 	
 	srand(time(NULL));
 	count_palavras = 0;
-	
+
 	for (i = 0; i < TOTAL_PALAVRAS; i++){
 		printf("%d ", i);
 		numero = rand() % 3;
+		//numero = 0;
 
 		switch(numero){
 
@@ -43,7 +44,14 @@ int main(){
 			case 2: remover(palavras, count_palavras);
 				break;
 		}
+		
+/*		if (count_palavras >= 4000){
+			printf("Superou capacidade do vetor.");
+			exit(1);
+		}*/
 	}
+	
+	fprintf(fin, "@\n");
 	
 	fclose(fout);
 	fclose(fin);
@@ -54,11 +62,14 @@ int main(){
 void inserir(char *word[], int *count) {
 	int tam;
 	
-	tam = rand() % MAX_PALAVRA;
+	tam = MAX_PALAVRA;
+	/*tam = rand() % MAX_PALAVRA;
 	
 	while(tam == 0){
 		tam = rand() % MAX_PALAVRA;
-	}
+	}*/
+	
+	
 	
 	if (!(word[*count] = malloc((tam + 1)*sizeof(char)))){
 		printf("Nao consegui alocar o vetor.\n");
@@ -113,11 +124,12 @@ void buscar(char *word[], int count){
 		fprintf(fin,"b %s\n", aux);
 		fprintf(fout, "v\n");
 	} else {
-		tam = rand() % MAX_PALAVRA;
-		
+		tam = MAX_PALAVRA;
+		/*tam = rand() % MAX_PALAVRA;
+	
 		while(tam == 0){
 			tam = rand() % MAX_PALAVRA;
-		}
+		}*/
 		
 		aux = malloc(sizeof(char)*(tam+1));
 
@@ -195,11 +207,12 @@ void remover(char *word[], int count){
 		
 		aux[0] = '\0';
 	} else {
-		tam = rand() % MAX_PALAVRA;
-		
+		tam = MAX_PALAVRA;
+		/*tam = rand() % MAX_PALAVRA;
+	
 		while(tam == 0){
 			tam = rand() % MAX_PALAVRA;
-		}
+		}*/
 		
 		aux = malloc(sizeof(char)*(tam+1));
 		

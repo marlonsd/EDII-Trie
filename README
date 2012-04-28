@@ -1,17 +1,35 @@
 // ------------------------------------------------------------
 //  Trabalho Estrutura de Dados II
 //
-// Aluno: Marlon Dias
+// Aluno: Marlon da Silva Dias
+// GitHub: https://github.com/marlonsd/EDII-Trie
 // README
 // ------------------------------------------------------------
 
-   O trabalho consiste na implementação de Árvore Trie, Árvore
-de Sufixo, e, a busca da maior palavra palindroma, usando árvore
-de sufixo. Este é um trabalho desenvolvido para a disciplina de
-Estrutura da dedos do curso de Ciência da Computação da Universidade
-Federal de Pelotas.
+   O trabalho consiste na implementação de Árvore Trie. Este é um
+trabalho desenvolvido para a disciplina de Estrutura da dedos do curso
+de Ciência da Computação da Universidade Federal de Pelotas.
 
-   This project consists in data structure implementation: Trie, 
-prefix tree, and search of the bigest palindrome word, using a
-prefix tree. This is a work developed to discipline of Data structure
-of Computer Science course from Universidade Federal de Pelotas.
+	Para compilar, usar no terminal:$ make
+	Para limpar, há dois comandos:	$ make clean
+									$ make txt
+	clean - remove os arquivos .o e o executável do programa
+	txt - remove os arquivos .txt
+
+	Tamanho máximo da palavra recebida pelo programa é informada através da macro TAM (em main.c).
+Está inicialmente setada em 35000, porém, pode ser alterada caso necessário.
+
+	Todos os testes foram feitos com 10000 iterações.
+
+	- Fazendo sorteio entre inserção, remoção e busca, o tamanho máximo da palavra suportada é 16100 caracteres (tamanho aleatório até o limite).
+	- Fazendo sorteio entre inserção, remoção e busca e com tamanho fixo da palavra, suportou o tamanho de 7900 caracteres.
+
+	- Fazendo somente inserções o tamanho máximo da palavra suportada foi de 5300 caracteres (tamanho aleatório até o limite).
+	- Fazendo somente inserções com tamanho fixo da palavra, suportou o tamanho de 2600 caracteres.
+
+	- Somente remoção ou busca, o maior tamanho a tratado pelo programa é o tamanho de uma palavra que ocupe toda a memória.
+		*Obs: Para tal, deve ser alterado o tamanho máximo da palavra (macro TAM) em main.c, além disso, deve ser considerado o limite de
+		representação de uma variável do tipo unsigned long int.
+
+	Todos os valores são aproximações, visto que cada iteração gerava palavras distintas ou de tamanhos distintos ou, ainda, número de inserções
+(que ocupa espaço na memória, realmente) distintos.

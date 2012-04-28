@@ -1,8 +1,11 @@
-/* Marlon da Silva Dias - Ciência da Computação
- * Sinal indicador de fim de palavra: $ 
- * 
- * 0 = FALSE
- * 1 = TRUE */
+// ------------------------------------------------------------
+//  Trabalho Estrutura de Dados II
+//		Ciênia da Computação
+//
+//	Aluno: Marlon da Silva Dias
+//	GitHub: https://github.com/marlonsd/EDII-Trie
+//	trie.h
+// ------------------------------------------------------------
 
 
 #ifndef TRIE_H_
@@ -20,11 +23,9 @@ typedef struct no node;
 node *Trie();
 
 /* Tratar a árvore */
-// 0 = false; 1 = true;
 int insert(node *T, char *word);
 int find(node *T, char *word);
 int delete(node *T, char *word);
 node *get(node *T, char *word);
-int lenght(char *word);
 
 #endif

@@ -1,19 +1,33 @@
+// ------------------------------------------------------------
+//  Trabalho Estrutura de Dados II
+//		Ciênia da Computação
+//
+//	Aluno: Marlon da Silva Dias
+//	GitHub: https://github.com/marlonsd/EDII-Trie
+//	main.c
+//
+//	A condição de parada da leitura é quando ler um '@'
+//	O programa interpreta três opções:
+//		'i' - Inserir
+//		'b' - Buscar
+//		'r' - Remover
+// ------------------------------------------------------------
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "trie.h"
+#include "trie.h"	// Implementação das funções da trie
 
 #define TAM 35000
 
 int main(){
 	unsigned long int i;
 	node *raiz;
-	char aux, op, sel,*palavra;
-	int j;
+	char aux, op, sel, *palavra;
 	
 	raiz = Trie();
 	
 	scanf("%c", &sel);
-	j = 0;
+
 	while(sel != '@'){
 		if ((sel == 'b') || (sel == 'i') || (sel == 'r')){
 			scanf("%c", &aux);
@@ -38,15 +52,14 @@ int main(){
 			switch(sel){
 				case 'b': op = find(raiz, palavra);
 					break;
-				case 'i'://printf("%d\n", j);
-				op = insert(raiz, palavra);
+				case 'i': op = insert(raiz, palavra);
 					break;
 				case 'r': op = delete(raiz, palavra);
 					break;
 			}
 			
 			free(palavra);
-//			printf("%d ", j);
+
 			if (op){
 				printf("v");
 			} else {
@@ -55,7 +68,7 @@ int main(){
 			
 			printf("\n");
 		}
-		j++;
+		
 		scanf("%c", &sel);
 	}
 	
