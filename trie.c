@@ -113,7 +113,7 @@ int delete(node *T, char *word){
 		aux->key[26] = NULL;
 		aux->kids--;
 			
-		while (aux && (!aux->kids)){
+		while (aux->father && (!aux->kids)){
 			father = aux->father;
 			i = 0;
 			
@@ -122,6 +122,7 @@ int delete(node *T, char *word){
 			}
 			
 			father->key[i] = NULL;
+			father->kids--;
 			
 			if (aux->father){
 				free(aux);

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define MAX_PALAVRA 16100
+#define MAX_PALAVRA 5300
 #define TOTAL_PALAVRAS 10000
 
 void inserir(char *word[], int *count);
@@ -14,7 +14,7 @@ int lenght(char *word);
 FILE *fin, *fout;
 
 int main(){
-	char *palavras[4000];
+	char *palavras[10000];
 	int count_palavras, numero, i;
 		
 	if((fin = fopen( "in.txt", "w")) == NULL ) {
@@ -32,8 +32,8 @@ int main(){
 
 	for (i = 0; i < TOTAL_PALAVRAS; i++){
 		printf("%d ", i);
-		numero = rand() % 3;
-		//numero = 0;
+		//numero = rand() % 3;
+		numero = 0;
 
 		switch(numero){
 
@@ -62,12 +62,12 @@ int main(){
 void inserir(char *word[], int *count) {
 	int tam;
 	
-	tam = MAX_PALAVRA;
-	/*tam = rand() % MAX_PALAVRA;
+	//tam = MAX_PALAVRA;
+	tam = rand() % MAX_PALAVRA;
 	
 	while(tam == 0){
 		tam = rand() % MAX_PALAVRA;
-	}*/
+	}
 	
 	
 	
@@ -124,12 +124,12 @@ void buscar(char *word[], int count){
 		fprintf(fin,"b %s\n", aux);
 		fprintf(fout, "v\n");
 	} else {
-		tam = MAX_PALAVRA;
-		/*tam = rand() % MAX_PALAVRA;
+		//tam = MAX_PALAVRA;
+		tam = rand() % MAX_PALAVRA;
 	
 		while(tam == 0){
 			tam = rand() % MAX_PALAVRA;
-		}*/
+		}
 		
 		aux = malloc(sizeof(char)*(tam+1));
 
@@ -207,12 +207,12 @@ void remover(char *word[], int count){
 		
 		aux[0] = '\0';
 	} else {
-		tam = MAX_PALAVRA;
-		/*tam = rand() % MAX_PALAVRA;
+		//tam = MAX_PALAVRA;
+		tam = rand() % MAX_PALAVRA;
 	
 		while(tam == 0){
 			tam = rand() % MAX_PALAVRA;
-		}*/
+		}
 		
 		aux = malloc(sizeof(char)*(tam+1));
 		
