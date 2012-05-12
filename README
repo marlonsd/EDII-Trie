@@ -16,20 +16,34 @@ de Ciência da Computação da Universidade Federal de Pelotas.
 	clean - remove os arquivos .o e o executável do programa
 	txt - remove os arquivos .txt
 
-	Tamanho máximo da palavra recebida pelo programa é informada através da macro TAM (em main.c).
-Está inicialmente setada em 35000, porém, pode ser alterada caso necessário.
+	Tamanho máximo da palavra recebida pelo programa é informada através
+da macro TAM (em main.c). Está inicialmente setada em 35000, porém,
+pode ser alterada caso necessário. Como a maior palavra suportada pelo
+programa foi de 32400 (mais a frente é abordado), este valor é suficiente
+para suportá-lo.
+	Caso deseje-se testar palavras maiores, que para serem suportadas
+deve haver mais memória que as usada nos testes, deve-se alterar a macro,
+caso contrário, não será possível nem ler a palavra.
 
+	-- Tamanho máximo
+	
 	Todos os testes foram feitos com 10000 iterações.
+	Estas 10000 iterações foram escolhidas como default a fim de facilitar
+a comparação do algoritmo.
 
 	- Fazendo sorteio entre inserção, remoção e busca, o tamanho máximo da palavra suportada é 32400 caracteres (tamanho aleatório até o limite).
 	- Fazendo sorteio entre inserção, remoção e busca e com tamanho fixo da palavra, suportou o tamanho de 15700 caracteres.
 
-	- Fazendo somente inserções o tamanho máximo da palavra suportada foi de 5300 caracteres (tamanho aleatório até o limite).
+	- Fazendo somente inserções, o tamanho máximo da palavra suportada foi de 5300 caracteres (tamanho aleatório até o limite).
 	- Fazendo somente inserções com tamanho fixo da palavra, suportou o tamanho de 2600 caracteres.
 
 	- Somente remoção ou busca, o maior tamanho a tratado pelo programa é o tamanho de uma palavra que ocupe toda a memória.
 		*Obs: Para tal, deve ser alterado o tamanho máximo da palavra (macro TAM) em main.c, além disso, deve ser considerado o limite de
 		representação de uma variável do tipo unsigned long int.
+		
+	*Obs2: Tamanho mínimo de uma palavra é de 1 caracter.
 
 	Todos os valores são aproximações, visto que cada iteração gerava palavras distintas ou de tamanhos distintos ou, ainda, número de inserções
 (que ocupa espaço na memória, realmente) distintos.
+	
+	Testes feito com 4Gb de memória ram.
